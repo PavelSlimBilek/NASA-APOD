@@ -15,14 +15,10 @@
     <main>
       <div class="form">
         <form th:action="@{/login}" method="post">
-          <label>
-            <input type="text" name="username" placeholder="email" required>
-          </label>
-          <label>
-            <input type="password" name="password" placeholder="password" required>
-          </label>
+          <input type="text" name="username" placeholder="email" required>
+          <input type="password" name="password" placeholder="password" required>
           <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-          <input type="submit" value="login" class="submit generic">
+          <input type="submit" value="login" class="submit generic" />
         </form>
         <a th:href="@{/login/oauth2/authorization/github}" class="gitHub submit">with GitHub</a>
       </div>
