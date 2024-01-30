@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>MainPage</title>
+        <link rel="stylesheet" href="/style.css">
+    </head>
+    <body>
+        <header th:if="${picture != null}">
+            <h1 th:text="${picture.getTitle()}"></h1>
+        </header>
+        <main>
+            <div class="mainDisplay">
+                <div class="mainImageHolder">
+                    <img th:src="@{${picture.getUrl()}}" class="mainImage" alt="NASA Picture">
+                </div>
+                <div class="descriptionHolder">
+                    <p th:text="${picture.getExplanation()}"></p>
+                    <p th:text="${picture.getDate()}"></p>
+                </div>
+            </div>
+        </main>
+        </header>
+        <footer>
+            <form th:each="image : ${images}" action="/view" method="get">
+                <button type="submit" name="date" th:value="${image.getDate()}" class="smallImageButton">
+                    <div class="smallDisplay">
+                        <img class="smallImage" th:src="${image.getUrl()}">
+                    </div>
+                </button>
+            </form>
+        </footer>
+    </body>
+</html>
