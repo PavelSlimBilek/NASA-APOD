@@ -7,25 +7,24 @@
     </head>
     <body>
         <header th:if="${picture != null}">
-            <h1 th:text="${picture.getTitle()}"></h1>
+            <h1 th:text="${picture.title()}"></h1>
         </header>
         <main>
             <div class="mainDisplay">
                 <div class="mainImageHolder">
-                    <img th:src="@{${picture.getUrl()}}" class="mainImage" alt="NASA Picture">
+                    <img th:src="@{${picture.url()}}" class="mainImage" alt="NASA Picture">
                 </div>
                 <div class="descriptionHolder">
-                    <p th:text="${picture.getExplanation()}"></p>
-                    <p th:text="${picture.getDate()}"></p>
+                    <p th:text="${picture.explanation()}"></p>
+                    <p th:text="${picture.date()}"></p>
                 </div>
             </div>
         </main>
-        </header>
         <footer>
             <form th:each="image : ${images}" action="/view" method="get">
-                <button type="submit" name="date" th:value="${image.getDate()}" class="smallImageButton">
+                <button type="submit" name="date" th:value="${image.date()}" class="smallImageButton">
                     <div class="smallDisplay">
-                        <img class="smallImage" th:src="${image.getUrl()}">
+                        <img class="smallImage" th:src="${image.url()}" alt="NASA image">
                     </div>
                 </button>
             </form>

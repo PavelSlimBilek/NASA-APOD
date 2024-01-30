@@ -15,10 +15,6 @@ header {
     justify-content: center;
 }
 
-nav {
-    display: flex;
-}
-
 main {
     display: flex;
     justify-content: center;
@@ -62,10 +58,6 @@ img {
     border-radius: 0.3rem;
 }
 
-.smallImageButton {
-
-}
-
 button {
     padding: 0;
     background: none;
@@ -86,7 +78,6 @@ button {
 }
 
 footer {
-
     display: flex;
     justify-content: center;
     align-items: center;

@@ -1,5 +1,8 @@
 package com.example.fridayproject.service;
+
 import com.example.fridayproject.dto.NasaPictureModelDto;
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
@@ -10,33 +13,17 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class NasaApiServiceImpl {
 
     @Value("${nasa.api.key}")
     private String apiKey;
-
     private final Retrofit retrofit;
-
-    public NasaApiServiceImpl(Retrofit retrofit) {
-        this.retrofit = retrofit;
-    }
 
     public NasaPictureModelDto getNasaMainPicture() {
         NasaApiService nasaApiService = retrofit.create(NasaApiService.class);
         Call<NasaPictureModelDto> call = nasaApiService.getNasaPictureOfTheDay(apiKey);
-
-        try {
-            Response<NasaPictureModelDto> response = call.execute();
-            if (response.isSuccessful()) {
-                return response.body();
-            } else {
-                System.err.println("Error fetching NASA picture. Response code: " + response.code());
-                return null;
-            }
-        } catch (IOException e) {
-            System.err.println("Error fetching NASA picture: " + e.getMessage());
-            return null;
-        }
+        return getNasaPictureModelDto(call);
     }
 
     public List<NasaPictureModelDto> getNasaRandomPictures() {
@@ -60,7 +47,11 @@ public class NasaApiServiceImpl {
     public NasaPictureModelDto getNasaImageByDate(String date) {
         NasaApiService nasaApiService = retrofit.create(NasaApiService.class);
         Call<NasaPictureModelDto> call = nasaApiService.getNasaPictureByDate(apiKey, date);
+        return getNasaPictureModelDto(call);
+    }
 
+    @Nullable
+    private NasaPictureModelDto getNasaPictureModelDto(Call<NasaPictureModelDto> call) {
         try {
             Response<NasaPictureModelDto> response = call.execute();
             if (response.isSuccessful()) {
@@ -74,5 +65,4 @@ public class NasaApiServiceImpl {
             return null;
         }
     }
-
 }

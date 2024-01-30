@@ -27,6 +27,7 @@ public class NasaPicture {
     private String service_version;
     private String title;
 
+    // TODO add favorite-list
     @ManyToMany
     @JsonBackReference
     private List<Uzer> fans;

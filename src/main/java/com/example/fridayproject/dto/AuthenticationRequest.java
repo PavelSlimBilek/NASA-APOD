@@ -1,12 +1,7 @@
 package com.example.fridayproject.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
-public class AuthenticationRequest {
-
-    private String email;
-    private String password;
+public record AuthenticationRequest(
+        String email,
+        String password
+) {
 }

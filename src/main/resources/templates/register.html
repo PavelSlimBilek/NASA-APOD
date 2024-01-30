@@ -1,30 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>New account</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<header>
-    <p class="logo">+new</p>
-    <nav>
-        <div class="navRight">
-            <a class="nav" href="/login">login</a>
-        </div>
-    </nav>
-</header>
-<main>
-    <div class="form">
-        <form action="/register" method="post">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-            <input name="firstName" placeholder="First Name" required>
-            <input name="lastName" placeholder="Last Name" required>
-            <input type="email" name="email" placeholder="email" required>
-            <input type="password" placeholder="password" name="password" required>
-            <input type="submit" value="signup">
-        </form>
-    </div>
-</main>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>New account</title>
+        <link rel="stylesheet" href="/style.css">
+    </head>
+    <body>
+        <header>
+            <h1>Register!</h1>
+            <nav>
+                <a class="nav" href="/login">login</a>
+            </nav>
+        </header>
+        <main>
+            <div class="form">
+                <form action="/register" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <label>
+                        <input name="firstName" placeholder="First Name" required>
+                    </label>
+                    <label>
+                        <input name="lastName" placeholder="Last Name" required>
+                    </label>
+                    <label>
+                        <input type="email" name="email" placeholder="email" required>
+                    </label>
+                    <label>
+                        <input type="password" placeholder="password" name="password" required>
+                    </label>
+                    <input type="submit" value="signup">
+                </form>
+            </div>
+        </main>
+    </body>
 </html>

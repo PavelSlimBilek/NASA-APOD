@@ -1,8 +1,6 @@
 package com.example.fridayproject.controller;
 
-import com.example.fridayproject.dto.AuthenticationRequest;
 import com.example.fridayproject.dto.RegistrationRequest;
-import com.example.fridayproject.service.AuthenticationService;
 import com.example.fridayproject.service.NasaApiServiceImpl;
 import com.example.fridayproject.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +21,8 @@ public class MainController {
     public String showMainPage(Model model,
                                @RequestParam Optional<String> date) {
 
-        model.addAttribute("picture", date.isPresent()
+        model.addAttribute("picture",
+                date.isPresent()
                 ? nasaApiServiceImpl.getNasaImageByDate(date.get())
                 : nasaApiServiceImpl.getNasaMainPicture());
         model.addAttribute("images", nasaApiServiceImpl.getNasaRandomPictures());
@@ -50,5 +49,4 @@ public class MainController {
     public String githubLogin() {
         return "redirect:/oauth2/authorization/github";
     }
-
 }

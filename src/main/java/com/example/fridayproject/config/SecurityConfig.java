@@ -24,32 +24,31 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .userDetailsService(userDetailsService)
-                .authorizeHttpRequests(r -> {
-                    r.requestMatchers("/style.css","/login", "/auth", "/register").permitAll();
-                    r.anyRequest().authenticated();
-                })
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/view")
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/login?logout")
-                )
-                .authenticationProvider(authenticationProvider)
-                .oauth2Login(oauth2Login -> oauth2Login
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/view")
-                        .permitAll()
-                        .authorizationEndpoint(authorization -> authorization
-                                .authorizationRequestRepository(new HttpSessionOAuth2AuthorizationRequestRepository())
-                                .baseUri("/login/oauth2/authorization")
-                        )
-                );
-
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+            .userDetailsService(userDetailsService)
+            .authorizeHttpRequests(r -> {
+                r.requestMatchers("/style.css","/login", "/auth", "/register").permitAll();
+                r.anyRequest().authenticated();
+            })
+            .formLogin(form -> form
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/view")
+                    .permitAll()
+            )
+            .logout(logout -> logout
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl("/login?logout")
+            )
+            .authenticationProvider(authenticationProvider)
+            .oauth2Login(oauth2Login -> oauth2Login
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/view")
+                    .permitAll()
+                    .authorizationEndpoint(authorization -> authorization
+                            .authorizationRequestRepository(new HttpSessionOAuth2AuthorizationRequestRepository())
+                            .baseUri("/login/oauth2/authorization")
+                    )
+            );
         return http.build();
     }
 }

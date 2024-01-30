@@ -1,19 +1,14 @@
 package com.example.fridayproject.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
-public class NasaPictureModelDto {
-
-    private Long id;
-    private String url;
-    private String copyright;
-    private String date;
-    private String explanation;
-    private String hdurl;
-    private String media_type;
-    private String service_version;
-    private String title;
+public record NasaPictureModelDto (
+        Long id,
+        String url,
+        String copyright,
+        String date,
+        String explanation,
+        String hdurl,
+        String media_type,
+        String service_version,
+        String title
+) {
 }

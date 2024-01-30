@@ -1,5 +1,6 @@
 package com.example.fridayproject.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,9 +11,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -33,30 +33,16 @@ public class Uzer implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    /*
+    // TODO - add favorites list
     @JsonManagedReference
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER)
-    private List<NasaPicture> favorites;
-     */
+    private Set<NasaPicture> favorites;
 
-    public Uzer(String email,
-                String firstName,
-                String lastName,
-                String password,
-                Role role) {
-
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-        this.role = role;
-    }
-
-    // -----------------------------------------------------------------------------------------------------------------
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority(role.name()));
+        return Set.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
