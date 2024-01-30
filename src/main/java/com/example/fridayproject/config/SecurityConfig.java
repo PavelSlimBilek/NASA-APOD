@@ -10,17 +10,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
-
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final HandlerMappingIntrospector mvcHandlerMappingIntrospector;
     private final UserDetailsService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
@@ -28,25 +24,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(customizer -> customizer.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .userDetailsService(userDetailsService)
-                .authorizeRequests(requests -> requests
-                        .requestMatchers(new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/register")).permitAll()
-                        .requestMatchers(new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/style.css")).permitAll()
-                        .requestMatchers(new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/login/**")).permitAll()
-                        .requestMatchers(new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/auth/**")).permitAll()
-                        .anyRequest().authenticated()
-                )
+                .authorizeHttpRequests(r -> {
+                    r.requestMatchers("/style.css","/login", "/auth", "/register").permitAll();
+                    r.anyRequest().authenticated();
+                })
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/view")
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login")
-                        .logoutUrl("/logout")
-                        .invalidateHttpSession(true)
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessUrl("/login?logout")
                 )
                 .authenticationProvider(authenticationProvider)
                 .oauth2Login(oauth2Login -> oauth2Login
