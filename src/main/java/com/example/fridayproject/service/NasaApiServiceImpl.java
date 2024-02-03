@@ -29,19 +29,17 @@ public class NasaApiServiceImpl {
     public List<NasaPictureModelDto> getNasaRandomPictures() {
         NasaApiService nasaApiService = retrofit.create(NasaApiService.class);
         Call<List<NasaPictureModelDto>> call = nasaApiService.getNasaPictures(apiKey, 10);
-
         try {
             Response<List<NasaPictureModelDto>> responses = call.execute();
             if (responses.isSuccessful()) {
                 return responses.body();
             } else {
                 System.err.println("Error fetching NASA picture. Response code: " + responses.code());
-                return null;
             }
         } catch (IOException e) {
             System.err.println("Error fetching NASA picture: " + e.getMessage());
-            return null;
         }
+        return null;
     }
 
     public NasaPictureModelDto getNasaImageByDate(String date) {
@@ -58,11 +56,10 @@ public class NasaApiServiceImpl {
                 return response.body();
             } else {
                 System.err.println("Error fetching NASA picture. Response code: " + response.code());
-                return null;
             }
         } catch (IOException e) {
             System.err.println("Error fetching NASA picture: " + e.getMessage());
-            return null;
         }
+        return null;
     }
 }

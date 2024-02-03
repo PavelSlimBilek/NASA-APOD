@@ -11,8 +11,8 @@ body {
 
 header {
     background-color: #101B2A;
-    display: flex;
-    justify-content: center;
+    text-align: center;
+    padding: 0.3rem;
 }
 
 main {
@@ -42,11 +42,17 @@ main {
     border-radius: 0.6rem;
 }
 
-h1 {
-    margin: 0.5rem;
+h1, h2, a, a:hover, a:active, a:focus{
     text-align: center;
-    font-size: 4rem;
     color: #EFF1F3;
+}
+
+a:hover, a:focus {
+    color: #a0b3ea;
+}
+
+h1 {
+    font-size: 3.5rem;
 }
 
 img {
@@ -88,7 +94,7 @@ form > * {
     margin: 0.5rem;
     padding: 1rem;
     font-size: 2rem;
-    width: 96%;
+    width: 97%;
     text-align: center;
 }
 
@@ -114,6 +120,19 @@ a {
 
 .gitHub:hover {
     background-color: #9370DB;
+    color: #EFF1F3;
+}
+
+.favButton {
+    padding: 0.0rem;
+    cursor: pointer;
+    background-color: #2b71ad;
+    border: 2px solid #222222;
+    border-radius: 0.3rem;
+}
+
+.favButton:hover {
+    background-color: #6b83dc;
     color: #EFF1F3;
 }
 

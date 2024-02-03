@@ -10,6 +10,8 @@ import com.example.fridayproject.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +27,6 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegistrationRequest registrationDto) {
         Uzer user = Uzer.builder()
                 .email(registrationDto.email())
-                .firstName(registrationDto.firstName())
-                .lastName(registrationDto.lastName())
                 .password(passwordEncoder.encode(registrationDto.password()))
                 .role(Role.USER)
                 .build();
@@ -46,5 +46,10 @@ public class AuthenticationService {
         Uzer user = repo.findFirstByEmail(authenticationDto.email());
         String jwtToken = jwtService.generateToken(user);
         return new AuthenticationResponse(jwtToken);
+    }
+
+    public String getLoggedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
     }
 }

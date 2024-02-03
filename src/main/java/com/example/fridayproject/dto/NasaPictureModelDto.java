@@ -1,7 +1,6 @@
 package com.example.fridayproject.dto;
 
 public record NasaPictureModelDto (
-        Long id,
         String url,
         String copyright,
         String date,

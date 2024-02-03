@@ -11,8 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Data
@@ -26,19 +25,20 @@ public class Uzer implements UserDetails {
     private Long id;
 
     private String email;
-    private String firstName;
-    private String lastName;
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @JsonIgnore
     private Role role;
 
-    // TODO - add favorites list
     @JsonManagedReference
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER)
-    private Set<NasaPicture> favorites;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "fan")
+    private List<NasaPicture> favorites = new ArrayList<>();
 
+    public Uzer(String gitHubId) {
+        this.email = gitHubId;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>MainPage</title>
+        <link rel="stylesheet" href="/style.css">
+    </head>
+    <body>
+        <header>
+            <h2 th:text="${#authentication.name}"></h2>
+            <a href="/favorites">favorites</a>
+            <a href="/logout">logout</a>
+            <h1 th:if="${picture != null}" th:text="${picture.title()}"></h1>
+        </header>
+        <main>
+            <div class="mainDisplay">
+                <div class="mainImageHolder">
+                    <img th:src="@{${picture.url()}}" class="mainImage" alt="NASA Picture">
+                </div>
+                <div class="descriptionHolder">
+                    <p th:text="${picture.explanation()}"></p>
+                    <p th:text="${picture.date()}"></p>
+                    <form th:unless="${favorites.containsKey(picture.date())}" method="post" action="/add">
+                        <input type="hidden" name="title" th:value="${picture.title()}">
+                        <input type="hidden" name="url" th:value="${picture.url()}">
+                        <input type="hidden" name="hdurl" th:value="${picture.hdurl()}">
+                        <input type="hidden" name="date" th:value="${picture.date()}">
+                        <input type="hidden" name="username" th:value="${#authentication.name}">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <input type="submit" class="favButton" value="Add to favorites">
+                    </form>
+                    <form th:if="${favorites.containsKey(picture.date())}" method="post" action="/remove">
+                        <input type="hidden" name="username" th:value="${#authentication.name}">
+                        <input type="hidden" name="date" th:value="${picture.date()}">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <input type="submit" class="favButton" value="Delete favorite">
+                    </form>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <form th:each="image : ${images}" action="/view">
+                <button type="submit" name="date" th:value="${image.date()}" class="smallImageButton">
+                    <div class="smallDisplay">
+                        <img class="smallImage" th:src="${image.url()}" alt="NASA image">
+                    </div>
+                </button>
+            </form>
+        </footer>
+    </body>
+</html>
