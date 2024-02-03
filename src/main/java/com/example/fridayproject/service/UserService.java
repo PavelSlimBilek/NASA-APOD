@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -58,6 +59,10 @@ public class UserService {
     }
 
     public Map<String, NasaPictureSimpleDto> getFavorites(String loggedUser) {
+        Uzer user = userRepo.findFirstByEmail(loggedUser);
+        if (user == null) {
+            return new HashMap<>();
+        }
         return userRepo.findFirstByEmail(loggedUser)
                 .getFavorites()
                 .stream()
@@ -69,5 +74,6 @@ public class UserService {
                                 p.getTitle(),
                                 p.getDate()),
                         (existing, replacement) -> existing));
+
     }
 }

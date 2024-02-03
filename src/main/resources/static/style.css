@@ -85,6 +85,7 @@ button {
 
 footer {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     background-color: #101B2A;
