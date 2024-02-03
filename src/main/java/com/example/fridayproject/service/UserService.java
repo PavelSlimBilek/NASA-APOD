@@ -42,8 +42,8 @@ public class UserService {
             userRepo.save(user);
         }
         NasaPicture picture = new NasaPicture(dto);
-        user.getFavorites().add(picture);
-        picture.setFan(user);
+        user.getNasaPictures().add(picture);
+        picture.getUzers().add(user);
         pictureRepo.save(picture);
         userRepo.save(user);
     }
@@ -52,8 +52,7 @@ public class UserService {
         Uzer user = userRepo.findFirstByEmail(dto.username());
         Optional<NasaPicture> picture = pictureRepo.findById(dto.date());
         if (picture.isPresent()) {
-            user.getFavorites().remove(picture.get());
-            pictureRepo.delete(picture.get());
+            user.getNasaPictures().remove(picture.get());
             userRepo.save(user);
         }
     }
@@ -64,7 +63,7 @@ public class UserService {
             return new HashMap<>();
         }
         return userRepo.findFirstByEmail(loggedUser)
-                .getFavorites()
+                .getNasaPictures()
                 .stream()
                 .collect(Collectors.toMap(
                         NasaPicture::getDate,

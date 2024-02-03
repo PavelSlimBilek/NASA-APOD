@@ -7,6 +7,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -20,9 +25,8 @@ public class NasaPicture {
     private String hdurl;
     private String title;
 
-    @ManyToOne
-    @JsonBackReference
-    private Uzer fan;
+    @ManyToMany(mappedBy = "nasaPictures")
+    private Set<Uzer> uzers = new HashSet<>();
 
     public NasaPicture(FavDto dto) {
         this.url = dto.url();

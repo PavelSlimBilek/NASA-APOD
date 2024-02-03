@@ -1,7 +1,6 @@
 package com.example.fridayproject.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,10 +30,13 @@ public class Uzer implements UserDetails {
     @JsonIgnore
     private Role role;
 
-    @JsonManagedReference
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "fan")
-    private List<NasaPicture> favorites = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "uzer_nasa_picture",
+            joinColumns = @JoinColumn(name = "uzer_id"),
+            inverseJoinColumns = @JoinColumn(name = "nasa_picture_id")
+    )
+    private Set<NasaPicture> nasaPictures = new HashSet<>();
 
     public Uzer(String gitHubId) {
         this.email = gitHubId;
