@@ -31,11 +31,6 @@ public class Uzer implements UserDetails {
     private Role role;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "uzer_nasa_picture",
-            joinColumns = @JoinColumn(name = "uzer_id"),
-            inverseJoinColumns = @JoinColumn(name = "nasa_picture_id")
-    )
     private Set<NasaPicture> nasaPictures = new HashSet<>();
 
     public Uzer(String gitHubId) {
